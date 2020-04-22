@@ -2,6 +2,10 @@
 
 ## Installation
 
+```sh
+$ pip install git+git://github.com/registreerocks/registree-auth.git
+```
+
 ## Usage
 
 ```python
