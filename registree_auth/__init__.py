@@ -1,1 +1,1 @@
-from .auth import requires_auth, requires_scope
+from .auth import get_token_auth_header, requires_auth, requires_scope
