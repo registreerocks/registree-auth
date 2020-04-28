@@ -11,7 +11,7 @@ API_IDENTIFIER = env.get("API_IDENTIFIER")
 ALGORITHMS = eval(env.get("ALGORITHMS", "['RS256']"))
 UPORT_ISSUER = env.get("UPORT_ISSUER")
 UPORT_VALIDATION_URL = env.get("UPORT_VALIDATION_URL")
-VALIDATION = env.get("VALIDATION", 1) != 0
+VALIDATION = int(env.get("VALIDATION", "1")) != 0
 
 
 def get_token_auth_header():
