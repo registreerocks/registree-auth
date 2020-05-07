@@ -1,13 +1,14 @@
 from flask import Flask
+from registree_auth import check_user_id, requires_auth, requires_scope
 
-from registree_auth import requires_auth, requires_scope
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/<id>')
 @requires_auth
-@requires_scope('admin')
-def display():
-  return "This is protected information!"
+@requires_scope('registree')
+@check_user_id
+def display(id):
+  return "This is protected information for user " + id
 
 if __name__=='__main__':
   app.run()

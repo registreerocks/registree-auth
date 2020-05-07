@@ -10,18 +10,20 @@ $ pip install git+git://github.com/registreerocks/registree-auth.git
 
 ```python
 from flask import Flask
+from registree_auth import check_user_id, requires_auth, requires_scope
 
-from registree_auth import requires_auth, requires_scope
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/<id>')
 @requires_auth
-@requires_scope('admin')
-def display():
-  return "This is protected information!"
+@requires_scope('registree')
+@check_user_id
+def display(id):
+  return "This is protected information for user " + id
 
 if __name__=='__main__':
   app.run()
+
 ```
 
 Environment variables:
@@ -77,14 +79,14 @@ Server: Werkzeug/1.0.1 Python/3.7.5
 
 Request with valid token:
 ```sh
-$ http localhost:5000 'Authorization: Bearer somevalidtoken'
+$ http localhost:5000/1 'Authorization: Bearer somevalidtoken'
 HTTP/1.0 200 OK
 Content-Length: 30
 Content-Type: text/html; charset=utf-8
 Date: Wed, 22 Apr 2020 08:16:10 GMT
 Server: Werkzeug/1.0.1 Python/3.7.5
 
-This is protected information!
+This is protected information for user 1
 ```
 
 ## Development
