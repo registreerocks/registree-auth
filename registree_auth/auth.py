@@ -33,6 +33,16 @@ def get_token_auth_header():
   token = parts[1]
   return token
 
+def get_user_id():
+  """Extracts user id from the access token
+  """
+  token = get_token_auth_header()
+  unverified_claims = jwt.get_unverified_claims(token)
+  if unverified_claims.get("user_id"):
+    return unverified_claims.get("user_id")
+  else:
+    return {"ERROR": "Could not extract user id"}, 401
+
 
 def requires_scope(*required_scopes):
   """Determines if the required scope is present in the access token
