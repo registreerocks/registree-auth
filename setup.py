@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='registree-auth',
-  version='0.1',
+  version='0.2',
   description='Registree API authorization functionality',
   url='https://github.com/registreerocks/registree-auth',
   maintainer='Sabine Bertram',
