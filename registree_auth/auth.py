@@ -33,22 +33,18 @@ def get_token_auth_header():
   token = parts[1]
   return token
 
-def check_user_id():
+def check_user_id(f):
   """Checks whether provided user id is equivalent to the user id stored in the token
   """
-
-  def check_user_id_decorator(f):
-
-    def wrapper(*args, **kwargs):
-      token = get_token_auth_header()
-      unverified_claims = jwt.get_unverified_claims(token)
-      if unverified_claims.get("user_id") and unverified_claims.get("user_id") == args[0]:
-        return f(*args, **kwargs)
-      return {"ERROR": "Invalid user id. Method not allowed for user id " + str(args[0])}, 401
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    token = get_token_auth_header()
+    unverified_claims = jwt.get_unverified_claims(token)
+    if unverified_claims.get("sub") and unverified_claims.get("sub") == kwargs['id']:
+      return f(*args, **kwargs)
+    return {"ERROR": "Invalid user id. Method not allowed for user id " + str(kwargs['id'])}, 401
     
-    return wrapper
-
-  return check_user_id_decorator
+  return decorated
 
 
 def requires_scope(*required_scopes):
